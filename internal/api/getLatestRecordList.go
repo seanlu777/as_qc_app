@@ -6,9 +6,9 @@ import (
 )
 
 type GetLatestRecordListRequest struct {
-	StartAt time.Time `json:"startAt"`
-	EndAt   time.Time `json:"endAt"`
-	Station string    `json:"station"` // If empty, send empty string, not null. Return all stations.
+	StartAt string `json:"startAt"`
+	EndAt   string `json:"endAt"`
+	Station string `json:"station"` // If empty, send empty string, not null. Return all stations.
 }
 
 type GetLatestRecordListResponse struct {

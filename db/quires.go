@@ -44,14 +44,14 @@ func GetLatestRecordList(req api.GetLatestRecordListRequest) ([]Test, error) {
 		result = DB.Raw(
 			`SELECT DISTINCT ON (tag_id) *
             FROM tests
-            WHERE received_at BETWEEN ? AND ?
+            WHERE tag_id BETWEEN ? AND ?
             ORDER BY tag_id, received_at DESC
             `, startAt, endAt).Scan(&testList)
 	} else {
 		result = DB.Raw(
 			`SELECT DISTINCT ON (tag_id) *
             FROM tests
-            WHERE received_at BETWEEN ? AND ?
+            WHERE tag_id BETWEEN ? AND ?
             AND station = ?
             ORDER BY tag_id, received_at DESC
             `, station, startAt, endAt).Scan(&testList)
