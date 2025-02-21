@@ -74,7 +74,7 @@ func startHTTPServer() {
 	// Seal tracking
 	router.GET("/api/health", apiHealth)
 	router.POST("/api/pushRecord", pushRecord)
-
+	router.GET("/api/getLatestRecordList", getLatestRecordList)
 	// Start the server on the port 8080
 	apiPort := os.Getenv("API_PORT")
 	// Log the local IP and port before starting the server
@@ -106,4 +106,17 @@ func pushRecord(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{"status": "ok"})
+}
+
+func getLatestRecordList(c *gin.Context) {
+	var req api.GetLatestRecordListRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	latestDataList, err := db.GetLatestRecordList(req)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+	}
+	c.JSON(200, gin.H{"status": "ok", "data": latestDataList})
 }
