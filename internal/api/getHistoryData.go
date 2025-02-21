@@ -4,12 +4,12 @@ import (
 	"time"
 )
 
-type getHistoryDataRequest struct {
+type GetHistoryDataRequest struct {
 	StartAt time.Time `json:"startAt"`
 	EndAt   time.Time `json:"endAt"`
 }
 
-type getHistoryDataResponse struct {
+type GetHistoryDataResponse struct {
 	Status      string        `json:"status"` // "success" or "error"
 	HistoryList []HistoryList `json:"historyList"`
 }

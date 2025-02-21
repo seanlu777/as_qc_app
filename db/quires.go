@@ -67,3 +67,26 @@ func GetLatestRecordList(req api.GetLatestRecordListRequest) ([]Test, error) {
 
 	return testList, nil
 }
+
+func GetHistoryData(req api.GetHistoryDataRequest) ([]Test, error) {
+	// Implement your get history record list logic here
+	startAt := req.StartAt
+	endAt := req.EndAt
+
+	if DB == nil {
+		return nil, fmt.Errorf("DB is nil")
+	}
+
+	var testList []Test
+	result := DB.Where("received_at BETWEEN ? AND ?", startAt, endAt).Find(&testList)
+	if result.Error != nil {
+		return nil, fmt.Errorf("failed to get history record list: %v", result.Error)
+	}
+
+	if result.RowsAffected == 0 {
+		return nil, fmt.Errorf("no rows affected")
+	}
+	fmt.Println("Successfully retrieved history record list:", testList)
+
+	return testList, nil
+}
