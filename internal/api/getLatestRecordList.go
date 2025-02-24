@@ -6,7 +6,7 @@ import (
 )
 
 type GetLatestRecordListRequest struct {
-	StartAt string `json:"startAt"`
+	StartAt string `json:"startAt"` // Tag ID renge. Not null.
 	EndAt   string `json:"endAt"`
 	Station string `json:"station"` // If empty, send empty string, not null. Return all stations.
 }
@@ -23,11 +23,11 @@ type LatestDataList struct {
 	Pressure         int       `json:"pressure"`
 	CableStatus      bool      `json:"cableStatus"`
 	TemperatureAlarm bool      `json:"temperatureAlarm"`
-	LowBatteryAlarm  bool      `json:"LowBatteryAlarm"`
+	LowBatteryAlarm  bool      `json:"lowBatteryAlarm"`
 	BatteryLevel     int       `json:"batteryLevel"`
 	Timestamp        string    `json:"timestamp"`
-	FirmwareVersion  string    `json:"FirmwareVersion"`
+	FirmwareVersion  string    `json:"firmwareVersion"`
 	TenMeterRssi     int       `json:"tenMeterRssi"`
-	Result           bool      `json:"result"`
+	TestResult       bool      `json:"testResult"`
 	ReceivedAt       time.Time `json:"receivedAt"`
 }

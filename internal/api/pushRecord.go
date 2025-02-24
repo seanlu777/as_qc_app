@@ -11,9 +11,9 @@ type PushRecordRequest struct {
 
 type DataList struct {
 	RawData    string    `json:"rawData"`
-	ReceivedAt time.Time `json:"receivedt"`
+	ReceivedAt time.Time `json:"receivedAt"`
 	Rssi       int       `json:"rssi"`
-	TestResult string    `json:"result"`
+	TestResult bool      `json:"testResult"`
 }
 
 type PushRecordResponse struct {

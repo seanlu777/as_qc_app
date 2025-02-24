@@ -7,6 +7,7 @@ import (
 type GetHistoryDataRequest struct {
 	StartAt time.Time `json:"startAt"`
 	EndAt   time.Time `json:"endAt"`
+	TagId   string    `json:"tagId"`
 }
 
 type GetHistoryDataResponse struct {
@@ -21,11 +22,11 @@ type HistoryList struct {
 	Pressure         int       `json:"pressure"`
 	CableStatus      bool      `json:"cableStatus"`
 	TemperatureAlarm bool      `json:"temperatureAlarm"`
-	LowBatteryAlarm  bool      `json:"LowBatteryAlarm"`
+	LowBatteryAlarm  bool      `json:"lowBatteryAlarm"`
 	BatteryLevel     int       `json:"batteryLevel"`
 	Timestamp        string    `json:"timestamp"`
-	FirmwareVersion  string    `json:"FirmwareVersion"`
+	FirmwareVersion  string    `json:"firmwareVersion"`
 	TenMeterRssi     int       `json:"tenMeterRssi"`
-	Result           bool      `json:"result"`
+	TestResult       bool      `json:"testResult"`
 	ReceivedAt       time.Time `json:"receivedAt"`
 }

@@ -10,5 +10,5 @@ type A2TB struct {
 	LowBatteryAlarm  bool    `json:"low_batteryAlarm"`
 	BatteryLevel     int     `json:"batteryLevel"`
 	Timestamp        string  `json:"timestamp"`
-	FirmwareVersion  string  `json:"version"`
+	FirmwareVersion  string  `json:"firmwareVersion"`
 }

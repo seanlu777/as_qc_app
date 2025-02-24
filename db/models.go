@@ -26,6 +26,6 @@ type Test struct {
 	Timestamp        string    `json:"timestamp"`
 	FirmwareVersion  string    `json:"version"`
 	TenMeterRssi     int       `json:"ten_meter_rssi"`
-	TestResult       string    `json:"test_result"`
+	TestResult       bool      `json:"test_result"`
 	ReceivedAt       time.Time `json:"received_at"`
 }
