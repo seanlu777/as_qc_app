@@ -7,6 +7,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 // ParseA2TB parses the A2TB data
@@ -16,7 +17,7 @@ func ParseA2TB(data api.PushRecordRequest) ([]db.Test, error) {
 		var a2tb models.A2TB
 		// Implement your parsing logic here
 		rawData := d.RawData
-		a2tb.TagId = rawData[6:12]
+		a2tb.TagId = strings.ToUpper(rawData[6:12])
 
 		temp, err := strconv.ParseInt(rawData[12:14], 16, 64)
 		if err != nil {
