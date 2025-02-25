@@ -118,6 +118,7 @@ func getLatestRecordList(c *gin.Context) {
 	latestDataList, err := db.GetLatestRecordList(req)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
+		return
 	}
 	c.JSON(200, gin.H{"status": "ok", "data": latestDataList})
 }
@@ -131,6 +132,7 @@ func getHistoryData(c *gin.Context) {
 	historyDataList, err := db.GetHistoryData(req)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
+		return
 	}
 	c.JSON(200, gin.H{"status": "ok", "data": historyDataList})
 }

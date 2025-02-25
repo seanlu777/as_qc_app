@@ -54,7 +54,7 @@ func GetLatestRecordList(req api.GetLatestRecordListRequest) ([]Test, error) {
             WHERE tag_id BETWEEN ? AND ?
             AND station = ?
             ORDER BY tag_id, received_at DESC
-            `, station, startAt, endAt).Scan(&testList)
+            `, startAt, endAt, station).Scan(&testList)
 	}
 	if result.Error != nil {
 		return nil, fmt.Errorf("failed to get latest record list: %v", result.Error)
@@ -63,6 +63,7 @@ func GetLatestRecordList(req api.GetLatestRecordListRequest) ([]Test, error) {
 	if result.RowsAffected == 0 {
 		return nil, fmt.Errorf("no rows affected")
 	}
+
 	fmt.Println("Successfully retrieved latest record list:", testList)
 
 	return testList, nil
@@ -72,13 +73,13 @@ func GetHistoryData(req api.GetHistoryDataRequest) ([]Test, error) {
 	// Implement your get history record list logic here
 	startAt := req.StartAt
 	endAt := req.EndAt
-
+	tagId := req.TagId
 	if DB == nil {
 		return nil, fmt.Errorf("DB is nil")
 	}
 
 	var testList []Test
-	result := DB.Where("received_at BETWEEN ? AND ?", startAt, endAt).Find(&testList)
+	result := DB.Where("received_at BETWEEN ? AND ? AND tag_id = ?", startAt, endAt, tagId).Find(&testList)
 	if result.Error != nil {
 		return nil, fmt.Errorf("failed to get history record list: %v", result.Error)
 	}
