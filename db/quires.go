@@ -3,6 +3,7 @@ package db
 import (
 	"as_qc_app/internal/api"
 	"fmt"
+	"strings"
 
 	"gorm.io/gorm"
 )
@@ -31,7 +32,7 @@ func GetLatestRecordList(req api.GetLatestRecordListRequest) ([]Test, error) {
 	// Implement your get latest record list logic here
 	startAt := req.StartAt
 	endAt := req.EndAt
-	station := req.Station
+	station := strings.ToLower(req.Station)
 
 	if DB == nil {
 		return nil, fmt.Errorf("DB is nil")
@@ -73,7 +74,7 @@ func GetHistoryData(req api.GetHistoryDataRequest) ([]Test, error) {
 	// Implement your get history record list logic here
 	startAt := req.StartAt
 	endAt := req.EndAt
-	tagId := req.TagId
+	tagId := strings.ToUpper(req.TagId)
 	if DB == nil {
 		return nil, fmt.Errorf("DB is nil")
 	}
