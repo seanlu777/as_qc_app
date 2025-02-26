@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"sync"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -111,10 +112,10 @@ func pushRecord(c *gin.Context) {
 
 func getLatestRecordList(c *gin.Context) {
 	var req api.GetLatestRecordListRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
-		return
-	}
+	req.StartAt = c.Query("startAt")
+	req.EndAt = c.Query("endAt")
+	req.Station = c.Query("station")
+
 	latestDataList, err := db.GetLatestRecordList(req)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
@@ -125,7 +126,21 @@ func getLatestRecordList(c *gin.Context) {
 
 func getHistoryData(c *gin.Context) {
 	var req api.GetHistoryDataRequest
+	startAt, err := time.Parse(time.RFC3339, c.Query("startAt"))
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	req.StartAt = startAt
+	endAt, err := time.Parse(time.RFC3339, c.Query("endAt"))
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	req.EndAt = endAt
+	req.TagId = c.Query("tagId")
 	if err := c.ShouldBindJSON(&req); err != nil {
+
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
