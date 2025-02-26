@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"sync"
 	"time"
 
@@ -126,28 +127,41 @@ func getLatestRecordList(c *gin.Context) {
 
 func getHistoryData(c *gin.Context) {
 	var req api.GetHistoryDataRequest
-	startAt, err := time.Parse(time.RFC3339, c.Query("startAt"))
-	if err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
-		return
-	}
-	req.StartAt = startAt
-	endAt, err := time.Parse(time.RFC3339, c.Query("endAt"))
-	if err != nil {
-		c.JSON(400, gin.H{"error": err.Error()})
-		return
-	}
-	req.EndAt = endAt
-	req.TagId = c.Query("tagId")
-	if err := c.ShouldBindJSON(&req); err != nil {
 
-		c.JSON(400, gin.H{"error": err.Error()})
+	// Get query parameters
+	startAtStr := c.Query("startAt")
+	endAtStr := c.Query("endAt")
+	tagId := c.Query("tagId")
+
+	if startAtStr == "" || endAtStr == "" || tagId == "" {
+		c.JSON(400, gin.H{"error": "startAt, endAt, and tagId are required query parameters"})
 		return
 	}
+
+	// Parse timestamps correctly as time.Time
+	startAt, err := time.Parse(time.RFC3339, startAtStr)
+	if err != nil {
+		c.JSON(400, gin.H{"error": "Invalid startAt format. Use RFC3339 (e.g., 2025-02-10T04:13:45Z)"})
+		return
+	}
+	endAt, err := time.Parse(time.RFC3339, endAtStr)
+	if err != nil {
+		c.JSON(400, gin.H{"error": "Invalid endAt format. Use RFC3339 (e.g., 2025-02-10T04:13:45Z)"})
+		return
+	}
+
+	// Assign parsed time values directly
+	req.StartAt = startAt
+	req.EndAt = endAt
+	req.TagId = strings.ToUpper(tagId) // Ensure consistent case
+
+	// Call the database function
 	historyDataList, err := db.GetHistoryData(req)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
+
+	// Send success response
 	c.JSON(200, gin.H{"status": "ok", "data": historyDataList})
 }
