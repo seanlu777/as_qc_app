@@ -34,7 +34,7 @@ func GetLatestRecordList(req api.GetLatestRecordListRequest) (api.GetLatestRecor
 	var latestDataList []api.LatestDataList
 	startAt := req.StartAt
 	endAt := req.EndAt
-	station := strings.ToLower(req.Station)
+	station := req.Station
 
 	if DB == nil {
 		resp = api.GetLatestRecordListResponse{
