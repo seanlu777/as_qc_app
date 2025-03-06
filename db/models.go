@@ -19,9 +19,9 @@ type Test struct {
 	TagId            string    `json:"tag_id"`
 	Temperature      float64   `json:"temperature"`
 	Pressure         int       `json:"pressure"`
-	CableStatus      bool      `json:"cable_status"`
-	TemperatureAlarm bool      `json:"temperature_alarm"`
-	LowBatteryAlarm  bool      `json:"low_battery_alarm"`
+	CableStatus      bool      `gorm:"default:true" json:"cable_status"`
+	TemperatureAlarm bool      `gorm:"default:true" json:"temperature_alarm"`
+	LowBatteryAlarm  bool      `gorm:"default:true" json:"low_battery_alarm"`
 	BatteryLevel     int       `json:"battery_level"`
 	Timestamp        string    `json:"timestamp"`
 	FirmwareVersion  string    `json:"version"`
