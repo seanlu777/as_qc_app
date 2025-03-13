@@ -120,7 +120,7 @@ func GetHistoryData(req api.GetHistoryDataRequest) (api.GetHistoryDataResponse, 
 	}
 
 	var testList []Test
-	result := DB.Where("received_at BETWEEN ? AND ? AND tag_id = ?", startAt, endAt, tagId).Find(&testList)
+	result := DB.Where("received_at BETWEEN ? AND ? AND tag_id = ? ORDER BY received_at DESC", startAt, endAt, tagId).Find(&testList)
 	if result.Error != nil {
 		resp = api.GetHistoryDataResponse{
 			Status: "error",
