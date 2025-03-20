@@ -15,7 +15,17 @@ func SaveA2TB(data []Test) error {
 		return fmt.Errorf("DB is nil")
 	}
 
-	result := DB.Create(&data)
+	if len(data) == 0 {
+		return fmt.Errorf("no data to save")
+	}
+
+	//result := DB.Create(&data)
+	//if result.Error != nil {
+	//	return fmt.Errorf("failed to save A2TB: %v", result.Error)
+	//}
+
+	batchSize := 100
+	result := DB.CreateInBatches(&data, batchSize)
 	if result.Error != nil {
 		return fmt.Errorf("failed to save A2TB: %v", result.Error)
 	}
@@ -23,7 +33,8 @@ func SaveA2TB(data []Test) error {
 	if result.RowsAffected == 0 {
 		return fmt.Errorf("no rows affected")
 	}
-	fmt.Println("Successfully saved A2TB record:", data)
+
+	fmt.Printf("Successfully saved %d A2TB record\n", result.RowsAffected)
 
 	return nil
 }

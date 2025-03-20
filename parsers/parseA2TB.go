@@ -90,7 +90,7 @@ func ParseA2TB(data api.PushRecordRequest) ([]db.Test, error) {
 			}
 			a2tb.Timestamp = strconv.FormatInt(timestamp*15, 10)
 
-			a2tb.FirmwareVersion = rawData[32:34]
+			a2tb.FirmwareVersion = rawData[34:36]
 
 			dbData = append(dbData, db.Test{
 				Station:          data.Station,
